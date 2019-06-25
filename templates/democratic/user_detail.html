@@ -1,0 +1,20 @@
+{% extends 'democratic/base.html' %}
+{% block content %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="user-metadata">
+              <h1 class="user-author">{{ user.first_name }}  {{ user.last_name }}</h1>
+            </div>
+            <p class="user-content">{{ user.birth_date }}</p>
+            <p class="user-content">{{ user.marital_relationship }}</p>
+            <p class="user-content">{{ user.address }}</p>
+            <p class="user-content">{{ user.phone }}</p>
+            <p class="user-content">{{ user.height }}</p>
+            <p class="user-content">{{ user.eye_color }}</p>
+            <p class="user-content">{{ user.eye_color }}</p>
+            <p class="user-content">{{ user.withdrawn_stuff }}</p>
+            <p class="user-content">{{ user.status }}</p>
+          </div>
+        </article>
+{% endblock content %}
+
