@@ -1,47 +1,70 @@
 {% extends 'democratic/base.html' %}
 {% block page_content %}
-
-    <div id="create_new" class="image-enter"><img
-            src="{{ url_for ('static', filename='images/Enter-Now-Button.png') }}"
-            class="img-fluid"></div>
-    <div class="col-md-10 create-form" style="display: none">
-        {% include 'democratic/_create_form.html' %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div id="my_alert" class="alert alert-info"
+     role="alert">
+    <h4 class="alert-heading">{{ message }}</h4>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div id="create_new" class="image-enter"><img
+        src="{{ url_for ('static', filename='images/Enter-Now-Button.png') }}"
+        class="img-fluid"></div>
+<div class="col-md-10 create-form" style="display: none">
+    {% include 'democratic/_create_form.html' %}
+</div>
+{% for user in users %}
+<article class="media content-section users-lists">
+    <div class="media-body">
+        <div class="user-metadata list-group">
+            <a class="user-name"
+               href="/get_user/{{ user._id }}">{{ loop.index }}.
+                {{ user.first_name }} {{ user.last_name }}</a>
+            {#
+            <small class="text-muted">{{ post.date_posted|date:"D d, Y" }}
+            </small>
+            #}
+        </div>
+        {# <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{
+        post.title }}</a></h2>#}
+        {#
+        <div class="article-content">Living Address: {{ user.address }}</div>
+        #}
     </div>
-    {% for user in users %}
-        <article class="media content-section users-lists">
-            <div class="media-body">
-                <div class="user-metadata list-group">
-                    <a class="user-name"
-                       href="/get_user/{{ user._id }}">{{ loop.index }}.
-                        {{ user.first_name }} {{ user.last_name }}</a>
-                    {#              <small class="text-muted">{{ post.date_posted|date:"D d, Y" }}</small>#}
-                </div>
-                {#            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>#}
-                {#            <div class="article-content">Living Address: {{ user.address }} </div>#}
-            </div>
-        </article>
-    {% endfor %}
-    {% if user %}
-           <article class="media content-section users-lists">
-            <div class="media-body">
-                <div class="user-metadata list-group">
+</article>
+{% endfor %}
+{% if user %}
+<article class="media content-section users-lists">
+    <div class="media-body">
+        <div class="user-metadata list-group">
 
-                        {{ user.first_name }} {{ user.last_name }}
-                                  <small class="text-muted">{{ user.birth_date }}</small>
-                </div>
-                {#            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>#}
-                {#            <div class="article-content">Living Address: {{ user.address }} </div>#}
-            </div>
-        </article>
-    {% endif %}
-    <script>
-        $("#create_new").click(function () {
-            $(".create-form").fadeIn();
-            $(".users-lists").fadeOut();
-        });
-        $(".cancel-btn").click(function () {
-            $(".create-form").fadeOut();
-        })
+            {{ user.first_name }} {{ user.last_name }}
+            <small class="text-muted">{{ user.birth_date }}</small>
+        </div>
+        {# <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{
+        post.title }}</a></h2>#}
+        {#
+        <div class="article-content">Living Address: {{ user.address }}</div>
+        #}
+    </div>
+</article>
+{% endif %}
+<script>
+    $("#create_new").click(function () {
+        $(".create-form").fadeIn();
+        $(".users-lists").fadeOut();
+    });
+    $(".cancel-btn").click(function () {
+        $(".create-form").fadeOut();
+    });
+    $(function () {
+        window.setTimeout(function () {
+            $('#my_alert').alert('close');
+        }, 5000);
+    });
 
-    </script>
+</script>
 {% endblock %}

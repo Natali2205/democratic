@@ -27,31 +27,34 @@ class DB(object):
     def insert(collection, data):
         """inserting values for item to DB"""
         try:
-            rec = DB().mydb[collection].insert(data)
+            res = DB().mydb[collection].insert(data)
         except errors.BulkWriteError as e:
             print(f'e------>{e}')
+            return False
         else:
-            return rec
+            return res
 
     @staticmethod
     def find_one(collection, query):
         """get one element from DB"""
         try:
-            DB().mydb[collection].find_one(query)
+            res = DB().mydb[collection].find_one(query)
         except Exception as e:
             print(e)
+            return False
         else:
-            return True
+            return res
 
     @staticmethod
     def find(collection):
         """get all elements from DB"""
         try:
-            DB().mydb[collection].find()
+            res = DB().mydb[collection].find()
         except Exception as e:
             print(e)
+            return False
         else:
-            return True
+            return res
 
     @staticmethod
     def update(collection, data, id):
@@ -60,6 +63,7 @@ class DB(object):
             DB().mydb[collection].update({"_id": ObjectId(id)}, {"$set": data})
         except Exception as e:
             print(e)
+            return False
         else:
             return True
 
@@ -67,8 +71,9 @@ class DB(object):
     def insert_many(collection, data):
         """inserting values for items to DB"""
         try:
-            rec = DB().mydb[collection].insert_many(data)
+            DB().mydb[collection].insert_many(data)
         except errors.BulkWriteError as e:
             print(f'e------>{e}')
+            return False
         else:
-            return rec
+            return True

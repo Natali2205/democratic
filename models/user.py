@@ -22,10 +22,11 @@ class Users(object):
         user = DB.find_one("user", {'first_name': values.get('first_name'),
                                      'last_name': values.get('last_name')})
         if not user:
-            DB.insert(collection="users", data=values)
+            res = DB.insert(collection="users", data=values)
         else:
-            DB.update(collection="users", data=values, id=user.id)
-        return True
+            res = DB.update(collection="users", data=values, id=user.id)
+
+        return res
 
     def create_table_users(self):
         try:
