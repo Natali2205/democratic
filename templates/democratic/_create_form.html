@@ -64,7 +64,7 @@
         <div class="col-md-3 mb-3">
             <label for="validationServer09">Withdrawn Stuff</label>
             <select name="withdrawn_stuff" id="validationServer09" >
-
+                <option value="">None</option>
                 {% for w_stuff in w_stuffs %}
                 <option value="{{ w_stuff['name'] }}"
                 >{{ w_stuff.name }}

@@ -2,10 +2,20 @@ from bson import ObjectId
 from flask import Blueprint, request, \
     render_template, flash, jsonify, session, redirect
 from database import DB
-from models.user import Users
+from models.user import User
 from models.withdrawn_stuff import WithdrawnStuff
 
 m_bp = Blueprint('m_bp', __name__)
+
+
+@m_bp.route('/resources', methods=['GET', 'POST'])
+def main_r():
+    print('resources')
+    print(request.get_json(silent=True, force=True))
+
+
+    w_stuffs = WithdrawnStuff().get_withdrawn_stuffs()
+    return jsonify({'ok': 'ok'})
 
 
 @m_bp.route('/', methods=['GET', 'POST'])
@@ -29,7 +39,7 @@ def create_user():
         'withdrawn_stuff': request.values.get('withdrawn_stuff'),
         'status': request.values.get('status')
     }
-    result = Users().insert_data(user)
+    result = User().insert_data(user)
     if result:
         flash('Congratulation, you crossed the border!')
     else:

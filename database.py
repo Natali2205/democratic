@@ -1,3 +1,5 @@
+import pymongo
+
 from bson import ObjectId
 from pymongo import MongoClient, errors
 
@@ -27,6 +29,7 @@ class DB(object):
     def insert(collection, data):
         """inserting values for item to DB"""
         try:
+            data['id'] = DB().get_next_id(collection)
             res = DB().mydb[collection].insert(data)
         except errors.BulkWriteError as e:
             print(f'e------>{e}')
@@ -46,10 +49,13 @@ class DB(object):
             return res
 
     @staticmethod
-    def find(collection):
+    def find(collection='collection', **kwargs):
         """get all elements from DB"""
         try:
-            res = DB().mydb[collection].find()
+            if kwargs:
+                res = DB().mydb[collection].find({}, kwargs)
+            else:
+                res = DB().mydb[collection].find()
         except Exception as e:
             print(e)
             return False
@@ -77,3 +83,18 @@ class DB(object):
             return False
         else:
             return True
+
+    def get_next_id(self, collection):
+        result = DB().mydb[collection].find_one({}, sort=[
+            ("id", pymongo.DESCENDING)])
+        if result:
+            id = result['id']
+            id += 1
+        else:
+            id = 1
+        return id
+
+    # @staticmethod
+    # def get_columns(self, collection):
+    #     reduce(lambda all_keys, rec_keys: all_keys | set(rec_keys),
+    #            map(lambda d: d.keys(), DB().mydb[collection].find()), set())

@@ -4,12 +4,13 @@ from pymongo.errors import BulkWriteError
 
 from database import DB
 from models.withdrawn_stuff import WithdrawnStuff
+from settings import users_fields
 
 
-class Users(object):
+class User(object):
     def __init__(self):
         cols = DB().mydb.collection_names()
-        if 'user' not in cols:
+        if 'users' not in cols:
             users = self.create_table_users
 
     def insert_data(self, values):
@@ -18,14 +19,12 @@ class Users(object):
         :param values: users parameters
         :return:
         """
-
-        user = DB.find_one("user", {'first_name': values.get('first_name'),
+        user = DB.find_one("users", {'first_name': values.get('first_name'),
                                      'last_name': values.get('last_name')})
         if not user:
             res = DB.insert(collection="users", data=values)
         else:
             res = DB.update(collection="users", data=values, id=user.id)
-
         return res
 
     def create_table_users(self):
@@ -35,10 +34,7 @@ class Users(object):
             vexpr = {"$jsonSchema":
                 {
                     "bsonType": "object",
-                    "required": ["first_name", "last_name", "birth_date",
-                                 "marital_relationship", "address", "phone",
-                                 "height", "eye_color", "withdrawn_stuff",
-                                 "status"],
+                    "required": users_fields,
                     "properties": {
                         "first_name": {
                             "bsonType": "string",
