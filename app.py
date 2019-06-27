@@ -20,12 +20,7 @@ app.register_blueprint(main_routes.m_bp)
 csrf = CSRFProtect(app)
 
 api = Api(app, decorators=[csrf.exempt])
-
-# for route in api_routes.routes:
-#     print(route)
-
 api.add_resource(UserApi, '/api/user')
-# api.add_resource(ModelApi, '/api/users')
 
 
 @app.before_first_request

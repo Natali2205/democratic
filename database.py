@@ -93,8 +93,3 @@ class DB(object):
         else:
             id = 1
         return id
-
-    # @staticmethod
-    # def get_columns(self, collection):
-    #     reduce(lambda all_keys, rec_keys: all_keys | set(rec_keys),
-    #            map(lambda d: d.keys(), DB().mydb[collection].find()), set())

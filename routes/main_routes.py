@@ -10,11 +10,6 @@ m_bp = Blueprint('m_bp', __name__)
 
 @m_bp.route('/resources', methods=['GET', 'POST'])
 def main_r():
-    print('resources')
-    print(request.get_json(silent=True, force=True))
-
-
-    w_stuffs = WithdrawnStuff().get_withdrawn_stuffs()
     return jsonify({'ok': 'ok'})
 
 

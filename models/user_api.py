@@ -35,15 +35,11 @@ class UserApi(Resource):
 
         user_exist = DB.find_one("users", {'first_name': user['first_name'],
                                   'last_name': user['last_name']})
-        print(user_exist)
         if user_exist:
             return f"User with such name {user['first_name']} " \
                    f"{ user['last_name']} already exist", 400
         if user:
-            print('USERRR')
-            print(user)
             create = User().insert_data(user)
-            print(create)
             if create:
                 return f"User {user['first_name']} Successfully created", 201
             else:
